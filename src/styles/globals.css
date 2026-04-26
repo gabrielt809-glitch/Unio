@@ -1,0 +1,75 @@
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-width: 320px;
+    min-height: 100%;
+    overflow-x: hidden;
+    background: var(--color-background);
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  input,
+  select,
+  textarea {
+    color-scheme: dark;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  @media (display-mode: standalone) {
+    body {
+      overscroll-behavior-y: contain;
+    }
+  }
+}
+
+@layer utilities {
+  .safe-area-x {
+    padding-left: max(var(--space-screen-x), var(--safe-left));
+    padding-right: max(var(--space-screen-x), var(--safe-right));
+  }
+
+  .safe-area-top {
+    padding-top: max(var(--space-screen-y), var(--safe-top));
+  }
+
+  .safe-area-bottom {
+    padding-bottom: max(var(--space-screen-y), var(--safe-bottom));
+  }
+}

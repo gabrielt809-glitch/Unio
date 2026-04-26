@@ -1,0 +1,30 @@
+@keyframes unio-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes unio-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-unio-pulse {
+  animation: unio-pulse 1.8s var(--ease-standard) infinite;
+}
+
+.animate-unio-enter {
+  animation: unio-slide-up 420ms var(--ease-standard) both;
+}

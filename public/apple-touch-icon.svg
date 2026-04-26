@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Unio">
+  <rect width="180" height="180" rx="40" fill="#08090D"/>
+  <path d="M49 47v53c0 23 18 42 41 42s41-19 41-42V47h-23v53c0 10-8 19-18 19s-18-9-18-19V47H49Z" fill="url(#paint0_linear)"/>
+  <defs>
+    <linearGradient id="paint0_linear" x1="49" y1="47" x2="142" y2="129" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+  </defs>
+</svg>
+

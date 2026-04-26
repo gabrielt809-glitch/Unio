@@ -1,0 +1,20 @@
+{
+  "name": "Unio",
+  "short_name": "Unio",
+  "description": "Tudo em um so lugar.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#08090D",
+  "theme_color": "#08090D",
+  "categories": ["productivity", "health", "finance"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64 192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

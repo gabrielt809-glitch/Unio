@@ -1,0 +1,20 @@
+:root {
+  color: var(--color-text-primary);
+  background: var(--color-background);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background:
+    linear-gradient(180deg, rgba(24, 27, 36, 0.72) 0%, rgba(8, 9, 13, 0) 22rem),
+    linear-gradient(135deg, rgba(124, 92, 255, 0.14) 0%, rgba(8, 9, 13, 0) 28rem), var(--color-background);
+}
+
+::selection {
+  color: var(--color-background);
+  background: var(--color-accent);
+}
