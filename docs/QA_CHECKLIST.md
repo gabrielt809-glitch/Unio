@@ -36,10 +36,16 @@
 ## 4. Tarefas
 
 - Criar tarefa de teste com prefixo `TESTE UNIO -`.
+- Criar tarefa sem data e confirmar que aparece apenas em Sem data/Todas.
+- Criar tarefa com data de hoje e confirmar que aparece em Hoje.
+- Criar tarefa futura e confirmar que aparece em Proximas.
+- Confirmar que tarefa sem data nao aparece em Hoje.
+- Editar titulo, descricao, data, prioridade e categoria.
 - Marcar como concluida.
 - Reabrir tarefa.
 - Excluir com confirmacao.
-- Recarregar e confirmar que a exclusao persistiu.
+- Recarregar e confirmar persistencia das criacoes/edicoes/conclusoes.
+- Confirmar no Supabase que `user_id` e `space_id` foram preenchidos.
 - Ver empty, loading e erro.
 
 ## 5. Habitos
@@ -92,6 +98,7 @@
 - Confirmar safe-area no topo e rodape.
 - Confirmar ausencia de scroll horizontal.
 - Confirmar que login, cadastro, magic link, recuperacao e reset nao geram overflow horizontal.
+- Confirmar que filtros horizontais de Tarefas nao geram scroll horizontal na pagina.
 - Confirmar que Auth, formularios e bottom nav nao cortam texto nem botoes.
 - Confirmar que cards de metricas continuam legiveis em duas colunas.
 

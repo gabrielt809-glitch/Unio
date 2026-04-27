@@ -1,7 +1,10 @@
 import type { ReactNode } from 'react';
 
 import { UiStoreProvider } from '../store/uiStore';
+import { QueryProvider } from './QueryProvider';
 
 export const AppProviders = ({ children }: { children: ReactNode }) => (
-  <UiStoreProvider>{children}</UiStoreProvider>
+  <QueryProvider>
+    <UiStoreProvider>{children}</UiStoreProvider>
+  </QueryProvider>
 );

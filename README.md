@@ -9,6 +9,7 @@ Unio e um Life OS pessoal premium. O objetivo do app e centralizar rotina, taref
 - TypeScript
 - TailwindCSS
 - Supabase
+- TanStack Query
 - PWA manual com `manifest.webmanifest` e `sw.js`
 - Vercel
 
@@ -128,11 +129,11 @@ Para producao na Vercel, configurar no Supabase Auth:
 
 Validacao controlada sem sessao confirmou que as tabelas protegidas existem e nao retornam linhas anonimas. A Etapa 5 adicionou login com senha, cadastro, magic link, recuperacao/reset de senha e garantia de `profiles`, `spaces` e `user_preferences` apos sessao valida.
 
-Fluxos reais de email, recuperacao e CRUD devem ser testados manualmente com usuario de teste antes de novas features. Se ainda nao foi aplicada no Supabase remoto, aplicar tambem a migration `20260426201000_harden_user_foundation.sql`.
+Fluxos reais de email, recuperacao e CRUD devem ser testados manualmente com usuario de teste antes de novas features. Se ainda nao foram aplicadas no Supabase remoto, aplicar tambem as migrations `20260426201000_harden_user_foundation.sql` e `20260427100000_tasks_hardening.sql`.
 
 ## Status atual
 
-O projeto existente ja possui base React/Vite/TypeScript/Tailwind, PWA, Supabase client, migrations com RLS, shell mobile-first, modulos iniciais, Design System baseline premium e Auth completo com senha, cadastro, magic link e recuperacao/reset. A validacao atual passa em:
+O projeto existente ja possui base React/Vite/TypeScript/Tailwind, PWA, Supabase client, migrations com RLS, shell mobile-first, Design System baseline premium, Auth completo e primeiro CRUD real de Tasks com TanStack Query.
 
 - `npm run format:check`
 - `npm run lint`
@@ -140,7 +141,7 @@ O projeto existente ja possui base React/Vite/TypeScript/Tailwind, PWA, Supabase
 - `npm run test`
 - `npm run build`
 
-Ainda faltam TanStack Query, expansao de React Hook Form/Zod para modulos de dominio, types oficiais gerados pelo Supabase CLI e validacao manual completa com Supabase real.
+Ainda faltam migrar Habits/Finance/Health para TanStack Query, expandir React Hook Form/Zod para os demais modulos de dominio, gerar types oficiais pelo Supabase CLI e validar manualmente o CRUD de Tasks em producao.
 
 ## Design System
 

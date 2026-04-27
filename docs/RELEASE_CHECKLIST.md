@@ -29,7 +29,7 @@ Nunca configurar service role key, senha do banco, JWT secret ou private key no 
 
 ## 4. Supabase
 
-- Migrations aplicadas, incluindo `20260426201000_harden_user_foundation.sql` quando o Auth completo for publicado.
+- Migrations aplicadas, incluindo `20260426201000_harden_user_foundation.sql` e `20260427100000_tasks_hardening.sql`.
 - RLS ativo.
 - Policies testadas com usuario autenticado.
 - Login por senha habilitado no Supabase Auth.
@@ -66,7 +66,20 @@ Nunca configurar service role key, senha do banco, JWT secret ou private key no 
 - Confirmar `profiles`, `spaces` e `user_preferences` no painel Supabase.
 - Remover dados de teste quando terminar.
 
-## 8. Versao
+## 8. Tasks em producao
+
+- Criar tarefa sem data.
+- Confirmar que aparece em Sem data/Todas e nao em Hoje.
+- Criar tarefa para hoje.
+- Criar tarefa futura.
+- Editar titulo, descricao, data, prioridade e categoria.
+- Concluir e reabrir tarefa.
+- Excluir com confirmacao.
+- Recarregar e confirmar persistencia.
+- Conferir `user_id` e `space_id` no Supabase.
+- Confirmar RLS com segundo usuario.
+
+## 9. Versao
 
 - Atualizar `package.json` quando houver release formal.
 - Registrar mudancas em `CHANGELOG.md` quando criado.

@@ -16,17 +16,17 @@ Resolvido na Etapa 2. Testing Library, jest-dom e user-event estao instalados e 
 
 A navegacao atual e manual. Isso e aceitavel no baseline, mas limita URLs por modulo e deep links.
 
-## 5. Ausencia de TanStack Query
+## 5. TanStack Query
 
-Hooks atuais gerenciam loading, erro e cache local manualmente. TanStack Query deve entrar antes de ampliar muito o CRUD.
+Resolvido para o primeiro CRUD real na Etapa 6. Tasks usa TanStack Query para cache, loading, erro, mutations e invalidacao. Habits, Finance e Health ainda usam hooks manuais e devem migrar em etapas futuras.
 
 ## 6. React Hook Form
 
-Resolvido para o baseline de Auth na Etapa 5. Login, cadastro, magic link, recuperacao e reset usam React Hook Form. Ainda falta migrar formularios de dominio quando os CRUDs forem evoluidos.
+Resolvido para o baseline de Auth na Etapa 5 e para Tasks na Etapa 6. Ainda falta migrar formularios de Habits, Finance, Health e Nutrition quando os CRUDs forem evoluidos.
 
 ## 7. Zod
 
-Resolvido para o baseline de Auth na Etapa 5. Schemas de login, cadastro, magic link, recuperacao e reset vivem em `src/modules/auth/schemas/authSchemas.ts`. Ainda faltam schemas de dominio.
+Resolvido para o baseline de Auth na Etapa 5 e para Tasks na Etapa 6. Ainda faltam schemas de Habits, Finance, Health e Nutrition.
 
 ## 8. Necessidade de .env real
 
@@ -38,7 +38,7 @@ Tipos de banco sao manuais, embora agora estejam alinhados as migrations e ligad
 
 ## 10. Repeticoes em formularios e hooks
 
-Existe repeticao em submit, loading/error e drafts de forms em `tasks`, `habits`, `finance` e `health`. A abstracao deve vir depois de React Hook Form/Zod ou TanStack Query.
+Ainda existe repeticao em submit, loading/error e drafts de forms em `habits`, `finance` e `health`. Tasks agora e o padrao de referencia com React Hook Form, Zod e TanStack Query.
 
 ## 11. Design system
 
@@ -51,8 +51,8 @@ Resolvido parcialmente na Etapa 4. Tokens CSS, componentes base, Auth visual e v
 3. Validar CRUD real e RLS com dois usuarios.
 4. Gerar types Supabase.
 5. Avaliar React Router.
-6. Adicionar TanStack Query.
-7. Expandir React Hook Form e Zod para modulos de dominio.
-8. Validar login, cadastro, recuperacao e reset com usuario real de teste.
-9. Aplicar manualmente a migration de hardening `20260426201000_harden_user_foundation.sql`, se ainda nao tiver sido aplicada.
+6. Migrar Habits, Finance e Health para TanStack Query.
+7. Expandir React Hook Form e Zod para os demais modulos de dominio.
+8. Validar CRUD real de Tasks em producao com dois usuarios.
+9. Aplicar manualmente a migration de hardening `20260427100000_tasks_hardening.sql`, se ainda nao tiver sido aplicada.
 10. Revisar shell autenticado com usuario real e dados suficientes para listas longas.

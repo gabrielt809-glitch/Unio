@@ -9,6 +9,7 @@ export default defineConfig({
         manualChunks: {
           forms: ['@hookform/resolvers', 'react-hook-form', 'zod'],
           icons: ['lucide-react'],
+          query: ['@tanstack/react-query'],
           react: ['react', 'react-dom'],
           supabase: ['@supabase/supabase-js'],
         },

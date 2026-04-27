@@ -13,6 +13,7 @@ import { useFinance } from '../finance/useFinance';
 import { useHabits } from '../habits/useHabits';
 import { useHealth } from '../health/useHealth';
 import { useTasks } from '../tasks/useTasks';
+import { isTaskCompleted } from '../tasks/utils/taskFilters';
 
 type DashboardViewProps = {
   userId: string;
@@ -25,7 +26,7 @@ export const DashboardView = ({ spaceId, userId }: DashboardViewProps) => {
   const habits = useHabits(userId, spaceId);
   const finance = useFinance(userId, spaceId);
   const health = useHealth(userId, spaceId);
-  const openTasks = tasks.tasks.filter((task) => !task.completed_at).length;
+  const openTasks = tasks.tasks.filter((task) => !isTaskCompleted(task)).length;
   const habitProgress = habits.habits.length
     ? Math.round((habits.completedHabitIds.size / habits.habits.length) * 100)
     : 0;

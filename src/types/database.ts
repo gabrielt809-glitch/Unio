@@ -19,8 +19,11 @@ export type UserPreferences = EntityBase & {
 export type Task = EntityBase & {
   title: string;
   notes: string | null;
+  description: string | null;
   due_date: string | null;
   priority: 'low' | 'medium' | 'high';
+  category: string | null;
+  status: 'open' | 'completed';
   completed_at: string | null;
 };
 
@@ -106,8 +109,11 @@ type TaskInsert = {
   space_id: string;
   title: string;
   notes?: string | null;
+  description?: string | null;
   due_date?: string | null;
   priority?: Task['priority'];
+  category?: string | null;
+  status?: Task['status'];
   completed_at?: string | null;
   created_at?: string;
   updated_at?: string;

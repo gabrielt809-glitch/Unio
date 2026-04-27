@@ -11,6 +11,7 @@ O client esta tipado com `Database` de `src/types/database.ts`. Esses tipos sao 
 - `20260426120000_initial_schema.sql`: cria `spaces` e tabelas de dominio iniciais.
 - `20260426133000_user_foundation.sql`: adiciona `profiles`, `user_preferences`, bootstrap de usuario e espaco pessoal.
 - `20260426201000_harden_user_foundation.sql`: reforca a RPC `ensure_user_foundation` para impedir uso autenticado em outro usuario e restringe execucao a usuarios autenticados.
+- `20260427100000_tasks_hardening.sql`: adiciona `description`, `category`, `status`, indices e garantias defensivas de RLS/policies para o CRUD real de tarefas.
 
 ## 3. Tabelas existentes
 
@@ -92,7 +93,10 @@ Sem CLI, executar os arquivos SQL em ordem no SQL Editor do Supabase:
 9. Criar outra query.
 10. Copiar o conteudo de `supabase/migrations/20260426201000_harden_user_foundation.sql`.
 11. Executar e confirmar ausencia de erro.
-12. Conferir tabelas, RLS e policies no Table Editor/Auth Policies.
+12. Criar outra query.
+13. Copiar o conteudo de `supabase/migrations/20260427100000_tasks_hardening.sql`.
+14. Executar e confirmar ausencia de erro.
+15. Conferir tabelas, RLS e policies no Table Editor/Auth Policies.
 
 Nao executar SQL remoto automaticamente por scripts locais nesta etapa. A aplicacao das migrations em producao deve ser feita conscientemente pelo painel ou por CLI autenticada pelo usuario.
 
@@ -138,7 +142,36 @@ Redirects esperados no Supabase Auth:
 
 O helper `getAuthRedirectUrl` normaliza `127.0.0.1:5173` para `localhost:5173`, evitando divergencia com a redirect URL local recomendada.
 
-## 15. Antes de confiar em CRUD real
+## 15. Tarefas
+
+A tabela `tasks` esperada para o CRUD real possui:
+
+- `id`
+- `user_id`
+- `space_id`
+- `title`
+- `notes` como compatibilidade legada
+- `description`
+- `due_date`
+- `priority`
+- `category`
+- `status`
+- `completed_at`
+- `created_at`
+- `updated_at`
+
+Regras importantes:
+
+- `due_date` pode ser `null`.
+- Tarefa sem data permanece sem data e nao entra no filtro Hoje.
+- `status` usa `open` ou `completed`.
+- Concluir tarefa preenche `completed_at` e muda `status` para `completed`.
+- Reabrir tarefa limpa `completed_at` e volta `status` para `open`.
+- Services sempre filtram por `user_id` e `space_id`.
+
+Antes de testar o CRUD real em producao, aplicar manualmente `20260427100000_tasks_hardening.sql`.
+
+## 16. Antes de confiar em CRUD real
 
 - `.env` real configurado localmente.
 - Migrations aplicadas.
@@ -147,7 +180,7 @@ O helper `getAuthRedirectUrl` normaliza `127.0.0.1:5173` para `localhost:5173`, 
 - Types oficiais gerados ou divergencias manuais revisadas.
 - Nenhuma secret administrativa no frontend.
 
-## 16. Status local da Etapa 3.5B
+## 17. Status local da Etapa 3.5B
 
 - `.env.local` existe localmente e usa `VITE_SUPABASE_URL` com `VITE_SUPABASE_PUBLISHABLE_KEY`.
 - As migrations foram aplicadas manualmente no painel Supabase.
@@ -157,7 +190,7 @@ O helper `getAuthRedirectUrl` normaliza `127.0.0.1:5173` para `localhost:5173`, 
 
 Proxima etapa recomendada: validar um fluxo real de autenticacao no navegador e, depois, testar CRUD com dados controlados.
 
-## 17. Validacao controlada da Etapa 3.5C
+## 18. Validacao controlada da Etapa 3.5C
 
 Validado automaticamente, sem sessao real e sem inserir dados:
 
@@ -168,7 +201,7 @@ Validado automaticamente, sem sessao real e sem inserir dados:
 
 Isso confirma que o client consegue acessar o projeto e que RLS nao expos dados para uma sessao anonima.
 
-## 18. Teste manual de Auth e sessao real
+## 19. Teste manual de Auth e sessao real
 
 Nao enviar magic link automaticamente. Para validar manualmente:
 
@@ -185,7 +218,7 @@ Nao enviar magic link automaticamente. Para validar manualmente:
 11. Testar magic link conscientemente, sem envio automatico.
 12. Confirmar que a area interna aparece apos cada fluxo valido.
 
-## 19. Teste manual de persistencia e limpeza
+## 20. Teste manual de persistencia e limpeza
 
 Depois do login real:
 
@@ -198,7 +231,7 @@ Depois do login real:
 
 No painel Supabase, validar que registros criados possuem `user_id` e `space_id` esperados. Limpar qualquer dado de teste criado.
 
-## 20. Teste manual de RLS com dois usuarios
+## 21. Teste manual de RLS com dois usuarios
 
 1. Criar/logar com Usuario A.
 2. Criar dado de teste com prefixo `TESTE UNIO - A`.
@@ -209,7 +242,7 @@ No painel Supabase, validar que registros criados possuem `user_id` e `space_id`
 7. Confirmar no painel que os `user_id` sao diferentes.
 8. Excluir os dados de teste de ambos os usuarios.
 
-## 21. ensure_user_foundation
+## 22. ensure_user_foundation
 
 Sem sessao real, a funcao nao foi chamada para criar dados. Validar manualmente apos login:
 
