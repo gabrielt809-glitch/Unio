@@ -20,13 +20,13 @@ A navegacao atual e manual. Isso e aceitavel no baseline, mas limita URLs por mo
 
 Hooks atuais gerenciam loading, erro e cache local manualmente. TanStack Query deve entrar antes de ampliar muito o CRUD.
 
-## 6. Ausencia de React Hook Form
+## 6. React Hook Form
 
-Formularios atuais usam `useState`. Isso gera repeticao conforme o app cresce.
+Resolvido para o baseline de Auth na Etapa 5. Login, cadastro, magic link, recuperacao e reset usam React Hook Form. Ainda falta migrar formularios de dominio quando os CRUDs forem evoluidos.
 
-## 7. Ausencia de Zod
+## 7. Zod
 
-Nao ha schemas formais de validacao. Regras devem ser centralizadas com Zod em etapa futura.
+Resolvido para o baseline de Auth na Etapa 5. Schemas de login, cadastro, magic link, recuperacao e reset vivem em `src/modules/auth/schemas/authSchemas.ts`. Ainda faltam schemas de dominio.
 
 ## 8. Necessidade de .env real
 
@@ -52,5 +52,7 @@ Resolvido parcialmente na Etapa 4. Tokens CSS, componentes base, Auth visual e v
 4. Gerar types Supabase.
 5. Avaliar React Router.
 6. Adicionar TanStack Query.
-7. Adicionar React Hook Form e Zod.
-8. Revisar shell autenticado com usuario real e dados suficientes para listas longas.
+7. Expandir React Hook Form e Zod para modulos de dominio.
+8. Validar login, cadastro, recuperacao e reset com usuario real de teste.
+9. Aplicar manualmente a migration de hardening `20260426201000_harden_user_foundation.sql`, se ainda nao tiver sido aplicada.
+10. Revisar shell autenticado com usuario real e dados suficientes para listas longas.

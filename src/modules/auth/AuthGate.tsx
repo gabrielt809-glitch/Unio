@@ -1,29 +1,49 @@
 import type { ReactNode } from 'react';
 import type { User } from '@supabase/supabase-js';
-import { CheckCircle2, KeyRound, LogIn, ShieldCheck } from 'lucide-react';
-import { FormEvent, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Badge } from '../../components/Badge';
-import { Button } from '../../components/Button';
-import { Divider } from '../../components/Divider';
-import { FieldShell, TextInput } from '../../components/Field';
 import { Screen } from '../../components/Layout';
 import { StateView } from '../../components/StateView';
 import { Surface } from '../../components/Surface';
 import { supabaseEnv } from '../../config/env';
-import { useAsyncAction } from '../../hooks/useAsyncAction';
-import { signInWithEmail } from './authService';
-import { useAuth } from './useAuth';
+import { AuthPanel } from './components/AuthPanel';
+import { AuthShell } from './components/AuthShell';
+import { MagicLinkForm } from './components/MagicLinkForm';
+import { PasswordLoginForm } from './components/PasswordLoginForm';
+import { PasswordRecoveryForm } from './components/PasswordRecoveryForm';
+import { RegisterForm } from './components/RegisterForm';
+import { ResetPasswordForm } from './components/ResetPasswordForm';
+import { UserFoundationGate } from './components/UserFoundationGate';
+import { useAuth } from './hooks/useAuth';
+import type { AuthMode } from './types/authTypes';
 
 type AuthGateProps = {
   children: (user: User) => ReactNode;
 };
 
-const AuthShell = ({ children }: { children: ReactNode }) => (
-  <Screen className="grid place-items-center overflow-x-hidden px-4 py-[calc(2rem+var(--safe-top))]">
-    <div className="w-full max-w-[calc(100vw-2rem)] sm:max-w-md">{children}</div>
-  </Screen>
-);
+const modeCopy: Record<AuthMode, { title: string; description: string }> = {
+  login: {
+    title: 'Entrar no Unio.',
+    description: 'Acesse seu Life OS pessoal com email e senha.',
+  },
+  register: {
+    title: 'Criar seu Unio.',
+    description: 'Comece com um espaco pessoal protegido e pronto para evoluir.',
+  },
+  'magic-link': {
+    title: 'Tudo em um so lugar.',
+    description: 'Receba um link seguro por email para entrar sem senha.',
+  },
+  'recover-password': {
+    title: 'Recuperar senha.',
+    description: 'Enviaremos um link seguro para voce definir uma nova senha.',
+  },
+  'reset-password': {
+    title: 'Definir nova senha.',
+    description: 'Escolha uma nova senha para continuar usando o Unio.',
+  },
+};
 
 const SupabaseSetup = () => (
   <AuthShell>
@@ -43,10 +63,16 @@ const SupabaseSetup = () => (
 );
 
 export const AuthGate = ({ children }: AuthGateProps) => {
-  const { error, isAuthenticated, status, user } = useAuth();
-  const [email, setEmail] = useState('');
-  const [sent, setSent] = useState(false);
-  const signInAction = useAsyncAction();
+  const { clearRecoveryRequired, error, isAuthenticated, recoveryRequired, status, user } = useAuth();
+  const [mode, setMode] = useState<AuthMode>('login');
+
+  useEffect(() => {
+    if (recoveryRequired) {
+      setMode('reset-password');
+    }
+  }, [recoveryRequired]);
+
+  const copy = useMemo(() => modeCopy[mode], [mode]);
 
   if (!supabaseEnv.isConfigured) {
     return <SupabaseSetup />;
@@ -76,85 +102,37 @@ export const AuthGate = ({ children }: AuthGateProps) => {
     );
   }
 
-  if (isAuthenticated && user) {
-    return children(user);
+  if (isAuthenticated && user && !recoveryRequired) {
+    return <UserFoundationGate user={user}>{children}</UserFoundationGate>;
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    void signInAction.run(async () => {
-      await signInWithEmail(email);
-      setSent(true);
-    });
+  const renderForm = () => {
+    switch (mode) {
+      case 'register':
+        return <RegisterForm />;
+      case 'magic-link':
+        return <MagicLinkForm />;
+      case 'recover-password':
+        return <PasswordRecoveryForm onBack={() => setMode('login')} />;
+      case 'reset-password':
+        return <ResetPasswordForm onComplete={clearRecoveryRequired} />;
+      case 'login':
+      default:
+        return <PasswordLoginForm onRecoverPassword={() => setMode('recover-password')} />;
+    }
   };
 
   return (
     <AuthShell>
-      <Surface variant="elevated" className="overflow-hidden p-0">
-        <div className="border-b border-white/10 bg-white/[0.03] p-5">
-          <div className="flex items-center justify-between gap-3">
-            <Badge tone="accent">Unio</Badge>
-            <Badge tone="success" className="gap-2">
-              <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
-              RLS ativo
-            </Badge>
-          </div>
-          <h1 className="mt-4 text-3xl font-extrabold text-text-primary">Tudo em um so lugar.</h1>
-          <p className="mt-3 text-sm leading-6 text-text-secondary">
-            Acesse seu Life OS pessoal com um link seguro por email. Seus dados ficam isolados por usuario e
-            espaco.
-          </p>
-        </div>
-
-        <div className="grid gap-5 p-5">
-          <div className="grid grid-cols-2 gap-3 text-xs text-text-secondary">
-            <div className="rounded-app border border-white/10 bg-background/70 p-3">
-              <KeyRound aria-hidden="true" className="mb-2 h-4 w-4 text-primary" />
-              Sessao persistida
-            </div>
-            <div className="rounded-app border border-white/10 bg-background/70 p-3">
-              <ShieldCheck aria-hidden="true" className="mb-2 h-4 w-4 text-accent" />
-              Dados protegidos
-            </div>
-          </div>
-
-          <Divider />
-
-          <form className="grid gap-4" onSubmit={handleSubmit}>
-            <FieldShell label="Email">
-              <TextInput
-                autoComplete="email"
-                inputMode="email"
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="voce@email.com"
-                required
-                type="email"
-                value={email}
-              />
-            </FieldShell>
-            <Button
-              icon={<LogIn aria-hidden="true" className="h-4 w-4" />}
-              isLoading={signInAction.isRunning}
-              size="lg"
-              type="submit"
-            >
-              Enviar link seguro
-            </Button>
-          </form>
-
-          {sent ? (
-            <div className="flex gap-3 rounded-app border border-success/20 bg-success/10 p-3 text-sm text-success">
-              <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" />
-              <p>Link enviado. Confira sua caixa de entrada para continuar.</p>
-            </div>
-          ) : null}
-          {signInAction.error ? (
-            <div className="rounded-app border border-danger/20 bg-danger/10 p-3 text-sm text-danger">
-              {signInAction.error}
-            </div>
-          ) : null}
-        </div>
-      </Surface>
+      <AuthPanel
+        activeMode={mode}
+        description={copy.description}
+        showTabs={mode !== 'recover-password' && mode !== 'reset-password'}
+        title={copy.title}
+        onModeChange={setMode}
+      >
+        {renderForm()}
+      </AuthPanel>
     </AuthShell>
   );
 };

@@ -4,6 +4,16 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   plugins: [react()],
   build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          forms: ['@hookform/resolvers', 'react-hook-form', 'zod'],
+          icons: ['lucide-react'],
+          react: ['react', 'react-dom'],
+          supabase: ['@supabase/supabase-js'],
+        },
+      },
+    },
     sourcemap: false,
     target: 'es2022',
   },

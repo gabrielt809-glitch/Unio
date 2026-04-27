@@ -10,6 +10,7 @@ O client esta tipado com `Database` de `src/types/database.ts`. Esses tipos sao 
 
 - `20260426120000_initial_schema.sql`: cria `spaces` e tabelas de dominio iniciais.
 - `20260426133000_user_foundation.sql`: adiciona `profiles`, `user_preferences`, bootstrap de usuario e espaco pessoal.
+- `20260426201000_harden_user_foundation.sql`: reforca a RPC `ensure_user_foundation` para impedir uso autenticado em outro usuario e restringe execucao a usuarios autenticados.
 
 ## 3. Tabelas existentes
 
@@ -49,6 +50,8 @@ A migration `20260426133000_user_foundation.sql` cria:
 
 Esse fluxo prepara `profiles`, espaco pessoal `Pessoal` e `user_preferences` para novos usuarios. O app ainda mantem `ensurePersonalSpace` no frontend como fallback operacional.
 
+Na Etapa 5, o frontend tambem passou a chamar `ensure_user_foundation` apos login com senha, cadastro com sessao imediata e reset de senha com sessao valida. A chamada fica em `src/modules/auth/services/userFoundationService.ts` e nao e feita diretamente por componentes visuais.
+
 ## 9. Configurar .env local
 
 Criar `.env.local` na raiz:
@@ -86,7 +89,12 @@ Sem CLI, executar os arquivos SQL em ordem no SQL Editor do Supabase:
 6. Criar outra query.
 7. Copiar o conteudo de `supabase/migrations/20260426133000_user_foundation.sql`.
 8. Executar e confirmar ausencia de erro.
-9. Conferir tabelas, RLS e policies no Table Editor/Auth Policies.
+9. Criar outra query.
+10. Copiar o conteudo de `supabase/migrations/20260426201000_harden_user_foundation.sql`.
+11. Executar e confirmar ausencia de erro.
+12. Conferir tabelas, RLS e policies no Table Editor/Auth Policies.
+
+Nao executar SQL remoto automaticamente por scripts locais nesta etapa. A aplicacao das migrations em producao deve ser feita conscientemente pelo painel ou por CLI autenticada pelo usuario.
 
 ## 12. Gerar types oficiais futuramente
 
@@ -110,16 +118,36 @@ Checklist minimo:
 - Confirmar que todos possuem `user_id` e `space_id` corretos.
 - Testar que outro usuario nao consegue ler dados alheios.
 
-## 14. Antes de confiar em CRUD real
+## 14. Fluxos de Auth da Etapa 5
+
+O modulo `src/modules/auth/` agora cobre:
+
+- Login com email e senha via `signInWithPassword`.
+- Cadastro com email, senha e nome via `signUpWithPassword`.
+- Magic link via `signInWithOtp`, mantendo o fluxo existente.
+- Recuperacao de senha via `resetPasswordForEmail`.
+- Reset de senha via `updateUser`.
+- Logout via `signOut`.
+- Sessao persistida com `persistSession`, `autoRefreshToken` e `detectSessionInUrl`.
+
+Redirects esperados no Supabase Auth:
+
+- Site URL: `https://unio.vercel.app`
+- Redirect URL de producao: `https://unio.vercel.app/**`
+- Redirect URL local: `http://localhost:5173/**`
+
+O helper `getAuthRedirectUrl` normaliza `127.0.0.1:5173` para `localhost:5173`, evitando divergencia com a redirect URL local recomendada.
+
+## 15. Antes de confiar em CRUD real
 
 - `.env` real configurado localmente.
 - Migrations aplicadas.
-- Auth/magic link validado.
+- Login por senha, cadastro, magic link, recuperacao e reset validados manualmente com conta de teste.
 - RLS testado com ao menos dois usuarios.
 - Types oficiais gerados ou divergencias manuais revisadas.
 - Nenhuma secret administrativa no frontend.
 
-## 15. Status local da Etapa 3.5B
+## 16. Status local da Etapa 3.5B
 
 - `.env.local` existe localmente e usa `VITE_SUPABASE_URL` com `VITE_SUPABASE_PUBLISHABLE_KEY`.
 - As migrations foram aplicadas manualmente no painel Supabase.
@@ -129,7 +157,7 @@ Checklist minimo:
 
 Proxima etapa recomendada: validar um fluxo real de autenticacao no navegador e, depois, testar CRUD com dados controlados.
 
-## 16. Validacao controlada da Etapa 3.5C
+## 17. Validacao controlada da Etapa 3.5C
 
 Validado automaticamente, sem sessao real e sem inserir dados:
 
@@ -140,21 +168,24 @@ Validado automaticamente, sem sessao real e sem inserir dados:
 
 Isso confirma que o client consegue acessar o projeto e que RLS nao expos dados para uma sessao anonima.
 
-## 17. Teste manual de Auth e sessao real
+## 18. Teste manual de Auth e sessao real
 
 Nao enviar magic link automaticamente. Para validar manualmente:
 
 1. Rodar `npm run dev`.
 2. Abrir `http://127.0.0.1:5173/`.
-3. Informar um email de teste controlado pelo usuario.
-4. Confirmar conscientemente o envio do magic link.
-5. Abrir o link recebido no mesmo navegador.
-6. Confirmar que a area interna aparece.
-7. Recarregar a pagina e confirmar que a sessao permanece.
-8. Usar Ajustes para sair.
-9. Confirmar que a tela de login volta.
+3. Criar uma conta de teste com email e senha temporaria.
+4. Confirmar o email se o projeto Supabase exigir confirmacao.
+5. Entrar com email e senha.
+6. Recarregar a pagina e confirmar que a sessao permanece.
+7. Usar Ajustes para sair.
+8. Solicitar recuperacao de senha para a conta de teste.
+9. Abrir o link recebido e definir nova senha.
+10. Entrar novamente com a nova senha.
+11. Testar magic link conscientemente, sem envio automatico.
+12. Confirmar que a area interna aparece apos cada fluxo valido.
 
-## 18. Teste manual de persistencia e limpeza
+## 19. Teste manual de persistencia e limpeza
 
 Depois do login real:
 
@@ -167,7 +198,7 @@ Depois do login real:
 
 No painel Supabase, validar que registros criados possuem `user_id` e `space_id` esperados. Limpar qualquer dado de teste criado.
 
-## 19. Teste manual de RLS com dois usuarios
+## 20. Teste manual de RLS com dois usuarios
 
 1. Criar/logar com Usuario A.
 2. Criar dado de teste com prefixo `TESTE UNIO - A`.
@@ -178,7 +209,7 @@ No painel Supabase, validar que registros criados possuem `user_id` e `space_id`
 7. Confirmar no painel que os `user_id` sao diferentes.
 8. Excluir os dados de teste de ambos os usuarios.
 
-## 20. ensure_user_foundation
+## 21. ensure_user_foundation
 
 Sem sessao real, a funcao nao foi chamada para criar dados. Validar manualmente apos login:
 

@@ -30,6 +30,12 @@ URL local padrao:
 http://127.0.0.1:5173/
 ```
 
+URL inicial de producao:
+
+```text
+https://unio.vercel.app/
+```
+
 ## Como fazer build
 
 ```bash
@@ -106,17 +112,27 @@ Antes do primeiro commit, confirme que os seguintes itens nao entram no versiona
 
 Arquivos esperados no repositorio incluem `src/`, `public/`, `supabase/`, `docs/`, `package.json`, `package-lock.json`, configs de Vite/Tailwind/TypeScript/ESLint/Prettier, `README.md`, `vercel.json`, `.gitignore` e `.env.example`.
 
+Em upload manual pelo GitHub, confira arquivos ocultos seguros como `.gitignore` e `.env.example`, pois eles podem nao aparecer quando a selecao de arquivos e feita pelo navegador.
+
 ## Supabase
 
 As migrations ficam em `supabase/migrations`. A base atual cria `spaces`, `profiles`, `user_preferences` e tabelas de dominio com RLS por usuario. Consulte [Supabase](docs/SUPABASE.md) antes de confiar em CRUD real.
 
 Ambiente local validado com `.env.local`, publishable key, migrations aplicadas manualmente no painel Supabase e URLs de autenticacao configuradas manualmente.
 
-Validacao controlada sem sessao confirmou que as tabelas protegidas existem e nao retornam linhas anonimas. Fluxo real de login por magic link e CRUD devem ser testados manualmente com usuario de teste antes de novas features.
+Para producao na Vercel, configurar no Supabase Auth:
+
+- Site URL: `https://unio.vercel.app`
+- Redirect URL: `https://unio.vercel.app/**`
+- Redirect URL local: `http://localhost:5173/**`
+
+Validacao controlada sem sessao confirmou que as tabelas protegidas existem e nao retornam linhas anonimas. A Etapa 5 adicionou login com senha, cadastro, magic link, recuperacao/reset de senha e garantia de `profiles`, `spaces` e `user_preferences` apos sessao valida.
+
+Fluxos reais de email, recuperacao e CRUD devem ser testados manualmente com usuario de teste antes de novas features. Se ainda nao foi aplicada no Supabase remoto, aplicar tambem a migration `20260426201000_harden_user_foundation.sql`.
 
 ## Status atual
 
-O projeto existente ja possui base React/Vite/TypeScript/Tailwind, PWA, Supabase client, migrations com RLS, shell mobile-first, modulos iniciais e Design System baseline premium. A validacao atual passa em:
+O projeto existente ja possui base React/Vite/TypeScript/Tailwind, PWA, Supabase client, migrations com RLS, shell mobile-first, modulos iniciais, Design System baseline premium e Auth completo com senha, cadastro, magic link e recuperacao/reset. A validacao atual passa em:
 
 - `npm run format:check`
 - `npm run lint`
@@ -124,7 +140,7 @@ O projeto existente ja possui base React/Vite/TypeScript/Tailwind, PWA, Supabase
 - `npm run test`
 - `npm run build`
 
-Ainda faltam TanStack Query, React Hook Form, Zod, types oficiais gerados pelo Supabase CLI e validacao com Supabase real.
+Ainda faltam TanStack Query, expansao de React Hook Form/Zod para modulos de dominio, types oficiais gerados pelo Supabase CLI e validacao manual completa com Supabase real.
 
 ## Design System
 

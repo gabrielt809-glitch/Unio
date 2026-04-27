@@ -17,6 +17,8 @@
 - `vercel.json` revisado.
 - Variaveis de ambiente configuradas.
 - Supabase migration aplicada.
+- Supabase Auth revisado com Site URL e Redirect URLs de producao/local.
+- Em upload manual pelo GitHub, conferir se `.env.example` e `.gitignore` aparecem no repositorio.
 
 ## 3. Variaveis de ambiente
 
@@ -27,10 +29,16 @@ Nunca configurar service role key, senha do banco, JWT secret ou private key no 
 
 ## 4. Supabase
 
-- Migration aplicada.
+- Migrations aplicadas, incluindo `20260426201000_harden_user_foundation.sql` quando o Auth completo for publicado.
 - RLS ativo.
 - Policies testadas com usuario autenticado.
+- Login por senha habilitado no Supabase Auth.
+- Cadastro por email revisado conforme decisao de confirmacao de email.
 - Magic link configurado com URL da Vercel.
+- Recuperacao de senha configurada com redirect para o app.
+- Site URL: `https://unio.vercel.app`
+- Redirect URL: `https://unio.vercel.app/**`
+- Redirect URL local: `http://localhost:5173/**`
 
 ## 5. PWA
 
@@ -45,7 +53,20 @@ Nunca configurar service role key, senha do banco, JWT secret ou private key no 
 - Ampliar cobertura quando novas regras de negocio forem criadas.
 - Futuro: testes E2E.
 
-## 7. Versao
+## 7. Auth em producao
+
+- Cadastrar conta de teste.
+- Confirmar email se a configuracao exigir.
+- Entrar com email e senha.
+- Recarregar e confirmar sessao persistida.
+- Fazer logout.
+- Solicitar recuperacao de senha.
+- Abrir link de recuperacao e definir nova senha.
+- Testar magic link manualmente.
+- Confirmar `profiles`, `spaces` e `user_preferences` no painel Supabase.
+- Remover dados de teste quando terminar.
+
+## 8. Versao
 
 - Atualizar `package.json` quando houver release formal.
 - Registrar mudancas em `CHANGELOG.md` quando criado.

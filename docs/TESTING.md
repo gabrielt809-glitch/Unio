@@ -33,7 +33,9 @@ Usar:
 ## 4. O que ja esta coberto
 
 - Smoke test do `App` no estado de configuracao Supabase.
-- `AuthGate` configurado sem sessao, com chamada de magic link mockada e com conteudo protegido.
+- `AuthGate` sem sessao, com sessao mockada, modo de reset e conteudo protegido.
+- Schemas de Auth para login, cadastro, magic link, recuperacao e reset.
+- Services de Auth com mocks para magic link, login com senha, cadastro, recuperacao, reset, logout e `ensure_user_foundation`.
 - Renderizacao e interacao basica do `Button`.
 - Utils puras de moeda, tempo e clamp.
 - Client Supabase com `auth.getSession()` seguro.
@@ -43,9 +45,9 @@ Usar:
 
 - Hooks de dominio.
 - Services com mocks do Supabase.
-- Fluxos de formularios.
+- Fluxos de formularios dos modulos de dominio.
 - Estados de loading, erro e vazio por modulo.
-- Validacoes futuras com Zod.
+- Validacoes futuras com Zod para tarefas, habitos, financas, saude e nutricao.
 - Testes E2E depois do Supabase real.
 
 ## 6. Testes que nao devem ser automatizados sem cuidado
@@ -65,4 +67,18 @@ Futuro: testar `toDateKey`, `getMonthKey` e filtros mensais.
 
 ## 9. Schemas futuros
 
-Quando Zod entrar, testar schemas de tarefas, habitos, transacoes, metricas diarias e refeicoes.
+Zod ja cobre o baseline de Auth. Futuro: testar schemas de tarefas, habitos, transacoes, metricas diarias e refeicoes.
+
+## 10. Auth
+
+Os testes de Auth nao criam usuario real, nao enviam email real e nao dependem de internet. Eles usam mocks para confirmar:
+
+- Submit de login com senha.
+- Submit de cadastro.
+- Envio mockado de magic link.
+- Envio mockado de recuperacao.
+- Reset de senha em modo de recuperacao.
+- Logout via service.
+- Chamada de `ensure_user_foundation` apos sessao valida.
+
+Fluxos reais de email, confirmacao e recuperacao devem ser validados manualmente com conta de teste.

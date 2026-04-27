@@ -7,12 +7,19 @@
 - `auth.getSession()` pode ser chamado localmente sem criar usuario e sem inserir dados.
 - Migrations foram aplicadas manualmente no painel Supabase antes de validar CRUD real.
 - URLs de autenticacao foram configuradas manualmente no painel Supabase.
+- Login com email e senha funciona com conta de teste.
+- Cadastro com email, senha e nome mostra sucesso ou aviso de confirmacao de email.
 - Login por magic link envia email quando Supabase esta configurado.
 - Envio de magic link deve ser feito manualmente pelo usuario durante QA.
+- Recuperacao de senha envia email apenas apos acao manual do usuario.
+- Link de recuperacao abre o app em modo de reset de senha.
+- Reset de senha valida senha minima e confirmacao.
 - Reload apos login mantem a sessao.
-- Logout funciona em Ajustes.
+- Logout funciona em Ajustes com loading e tratamento de erro.
 - Tela de Auth nao deve enviar magic link sem acao manual do usuario.
 - Tela de Auth deve caber em 320px sem scroll horizontal.
+- Usuario autenticado nao volta para login em reload comum.
+- Usuario sem sessao nao acessa a area interna.
 
 ## 2. Navegacao
 
@@ -84,7 +91,8 @@
 - Testar largura 320px, 375px, 390px e 430px.
 - Confirmar safe-area no topo e rodape.
 - Confirmar ausencia de scroll horizontal.
-- Confirmar que Auth, formulários e bottom nav nao cortam texto nem botoes.
+- Confirmar que login, cadastro, magic link, recuperacao e reset nao geram overflow horizontal.
+- Confirmar que Auth, formularios e bottom nav nao cortam texto nem botoes.
 - Confirmar que cards de metricas continuam legiveis em duas colunas.
 
 ## 14. PWA
