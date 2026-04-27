@@ -60,7 +60,7 @@ export const TaskForm = ({ initialTask, isBusy, onCancelEdit, onSubmit }: TaskFo
   });
 
   return (
-    <form className="grid gap-3" onSubmit={submit}>
+    <form className="grid min-w-0 gap-3" onSubmit={submit}>
       <FieldShell label={isEditing ? 'Editar titulo' : 'Titulo'} error={errors.title?.message}>
         <TextInput
           autoComplete="off"
@@ -78,7 +78,7 @@ export const TaskForm = ({ initialTask, isBusy, onCancelEdit, onSubmit }: TaskFo
         />
       </FieldShell>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-3">
         <FieldShell label="Data" error={errors.dueDate?.message} hint="Opcional. Sem data fica sem prazo.">
           <TextInput type="date" {...register('dueDate')} />
         </FieldShell>
@@ -96,7 +96,7 @@ export const TaskForm = ({ initialTask, isBusy, onCancelEdit, onSubmit }: TaskFo
         </FieldShell>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+      <div className="grid min-w-0 gap-3 sm:grid-cols-[1fr_auto]">
         <Button
           icon={
             isEditing ? (

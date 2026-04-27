@@ -87,6 +87,8 @@ Usar `Button` para comandos textuais e `IconButton` para comandos compactos. Bot
 
 Todo campo deve estar dentro de `FieldShell` ou ter label acessivel equivalente. Inputs atuais sao dark, com borda sutil, foco em accent e `color-scheme: dark`.
 
+Campos precisam usar `display: block`, `width: 100%`, `max-width: 100%`, `min-width: 0` e `box-sizing: border-box`. Inputs nativos de data, hora, numero e selects nao podem depender de largura intrinseca do navegador.
+
 ## 12. Estados vazios/loading/erro
 
 Usar `EmptyState`, `LoadingState` e `ErrorState` quando o estado for dedicado, ou `StateView` quando a tela precisar escolher dinamicamente. Loading deve ser discreto e erro deve orientar a proxima acao.
@@ -113,3 +115,13 @@ Validado em ambiente local:
 - Evitar animacoes em telas criticas de autenticacao para nao capturar estados opacos.
 - Evitar textos longos em badges no topo mobile.
 - Revisar o shell autenticado com usuario real na proxima etapa manual de QA.
+
+## 17. Visual QA Gate
+
+Componentes base revisados para o gate visual:
+
+- `FieldShell`, `Input`, `Textarea` e `Select` usam `min-w-0`, `max-w-full` e `w-full`.
+- `Surface`, `MetricTile`, `StateView`, `SectionHeader`, `Card`, `Button`, `Badge` e `Chip` foram protegidos contra overflow de conteudo.
+- `PageContainer`, `Screen`, `TopBar`, `BottomNav` e `ConfirmDialog` usam constraints de viewport e safe-area.
+
+Toda nova tela ou componente compartilhado deve ser validado nos viewports obrigatorios antes de ser considerado aprovado.

@@ -90,3 +90,30 @@ Na Etapa 4, a tela de Auth foi validada em `320x568`, `390x844` e `768x900` via 
 - Componentes base ficam em `src/components`.
 - Novos modulos devem reutilizar `Screen`, `PageContainer`, `SectionHeader`, `Surface` e estados padronizados.
 - Componentes novos precisam ter API pequena, acessivel e teste quando virarem superficie compartilhada.
+
+## 14. Visual QA Gate
+
+Toda etapa futura so pode ser aprovada se passar tambem no Visual QA Gate. O gate cobre:
+
+- Viewports obrigatorias: `320x568`, `375x667`, `390x844`, `430x932` e `768x900`.
+- Auth, shell autenticado, Dashboard, Tarefas, Habitos, Financas, Saude, Ajustes e agrupamento Mais quando houver.
+- Ausencia de scroll horizontal indevido em `html` e `body`.
+- Ausencia de inputs, selects, textareas, cards, botoes, dialogs e containers extrapolando a viewport.
+- Safe-area correta no topo e rodape.
+- `BottomNav` sem cobrir conteudo acionavel.
+- `TopBar` sem sobrepor conteudo.
+- Estados vazios, loading e erro visualmente consistentes.
+- Area de toque confortavel e foco visivel.
+- Aparencia dark premium preservada.
+
+Comandos:
+
+```bash
+npm run test:visual
+```
+
+O teste visual usa Playwright nos viewports obrigatorios. Ele valida a tela real de Auth e um harness visual local controlado para telas internas sem depender de usuario real, dados reais ou rede Supabase.
+
+## 15. Bloco obrigatório para próximas etapas
+
+"Antes de aprovar esta etapa, execute o Visual QA Gate em todos os viewports obrigatórios. Se qualquer elemento extrapolar a tela, gerar scroll horizontal indevido, quebrar container, sobrepor outro elemento ou prejudicar a experiência mobile, a etapa deve ser marcada como Reprovada e o problema deve ser corrigido antes do relatório final."

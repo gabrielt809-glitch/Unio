@@ -45,7 +45,15 @@
   input,
   select,
   textarea {
+    max-width: 100%;
+    min-width: 0;
     color-scheme: dark;
+  }
+
+  input[type='date'],
+  input[type='time'],
+  input[type='datetime-local'] {
+    min-inline-size: 0;
   }
 
   #root {

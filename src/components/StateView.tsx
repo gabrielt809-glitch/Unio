@@ -24,18 +24,18 @@ export const StateView = ({ action, className, description, title, tone = 'empty
   return (
     <div
       className={cn(
-        'grid min-h-40 place-items-center rounded-panel border border-dashed p-6 text-center',
+        'grid min-h-40 min-w-0 place-items-center rounded-panel border border-dashed p-6 text-center',
         toneClass[tone],
         className,
       )}
     >
-      <div className="max-w-xs">
+      <div className="min-w-0 max-w-xs">
         <Icon
           aria-hidden="true"
           className={cn('mx-auto mb-3 h-6 w-6', tone === 'loading' && 'animate-spin')}
         />
-        <h3 className="text-sm font-bold text-text-primary">{title}</h3>
-        <p className="mt-2 text-sm leading-6 text-text-secondary">{description}</p>
+        <h3 className="break-words text-sm font-bold text-text-primary">{title}</h3>
+        <p className="mt-2 break-words text-sm leading-6 text-text-secondary">{description}</p>
         {action ? <div className="mt-4">{action}</div> : null}
       </div>
     </div>

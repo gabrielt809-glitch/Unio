@@ -9,6 +9,7 @@ Scripts disponiveis:
 ```bash
 npm run test
 npm run test:watch
+npm run test:visual
 ```
 
 ## 2. Estrutura de testes
@@ -22,6 +23,7 @@ Testes ficam proximos do codigo testado quando forem pequenos e diretos:
 Setup global:
 
 - `src/test/setup.ts`
+- `tests/visual/visual-qa.spec.ts`
 
 ## 3. Padrao de nome de arquivos
 
@@ -95,5 +97,21 @@ Os testes de Tasks nao criam dados reais e nao dependem de Supabase real. Eles c
 - Formatacao de data por chave local.
 - Service com mocks para listar, criar, editar, concluir, reabrir e excluir.
 - Componentes `TaskFilterTabs` e `TaskCard`.
+- Classes responsivas de `Field`, `Input`, `Textarea`, `Select`, `TaskForm`, `TaskFilterTabs` e `TaskCard`.
+- Visual QA Gate automatizado com Playwright para Auth e harness visual local das telas internas nos viewports obrigatorios.
 
 CRUD real deve ser validado manualmente com conta de teste apos aplicar a migration de hardening de tasks.
+
+## 12. Visual QA Gate
+
+`npm run test:visual` executa Playwright em:
+
+- `320x568`
+- `375x667`
+- `390x844`
+- `430x932`
+- `768x900`
+
+O teste abre a tela real de Auth e alterna entre senha, cadastro, magic link e recuperacao. Para a area logada, usa `?visual-qa=...` somente em `DEV`, com dados estaticos e componentes reais, sem usuario real e sem writes no Supabase.
+
+O gate falha se `documentElement` ou `body` tiverem overflow horizontal, ou se inputs, selects, textareas, botoes, dialogs, header, nav, forms e containers principais extrapolarem a viewport fora de regioes com scroll interno intencional.

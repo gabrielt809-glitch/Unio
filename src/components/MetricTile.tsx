@@ -20,10 +20,12 @@ const toneClass = {
 } as const;
 
 export const MetricTile = ({ className, detail, icon, label, tone = 'primary', value }: MetricTileProps) => (
-  <div className={cn('rounded-panel border border-white/10 bg-elevated/80 p-4 shadow-panel', className)}>
-    <div className="flex items-start justify-between gap-3">
+  <div
+    className={cn('min-w-0 rounded-panel border border-white/10 bg-elevated/80 p-4 shadow-panel', className)}
+  >
+    <div className="flex min-w-0 items-start justify-between gap-3">
       <div className="min-w-0">
-        <p className="text-xs font-semibold uppercase text-text-secondary">{label}</p>
+        <p className="break-words text-xs font-semibold uppercase text-text-secondary">{label}</p>
         <p className="mt-2 truncate text-2xl font-extrabold text-text-primary">{value}</p>
         {detail ? <p className="mt-1 truncate text-xs text-text-secondary">{detail}</p> : null}
       </div>

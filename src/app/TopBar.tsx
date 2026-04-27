@@ -13,7 +13,7 @@ export const TopBar = ({ spaceName, userEmail }: TopBarProps) => {
 
   return (
     <header className="safe-area-x sticky top-0 z-30 border-b border-white/10 bg-background/88 pb-3 pt-[calc(0.85rem+var(--safe-top))] backdrop-blur-xl">
-      <div className="mx-auto flex max-w-2xl items-center justify-between gap-3">
+      <div className="mx-auto flex max-w-2xl min-w-0 items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase text-accent">Unio</p>
           <h1 className="mt-1 truncate text-xl font-extrabold text-text-primary">{spaceName}</h1>

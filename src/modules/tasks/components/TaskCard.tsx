@@ -28,7 +28,7 @@ export const TaskCard = ({ isBusy, onDelete, onEdit, onToggle, task }: TaskCardP
 
   return (
     <Surface className={cn('p-3', isComplete && 'opacity-70')} variant="interactive">
-      <div className="flex items-start gap-3">
+      <div className="flex min-w-0 items-start gap-3">
         <button
           aria-label={isComplete ? 'Reabrir tarefa' : 'Concluir tarefa'}
           className={cn(
@@ -53,11 +53,18 @@ export const TaskCard = ({ isBusy, onDelete, onEdit, onToggle, task }: TaskCardP
             <Badge tone={isComplete ? 'success' : 'primary'}>{taskStatusLabels[task.status]}</Badge>
             <Badge tone={priorityTone[task.priority]}>{taskPriorityLabels[task.priority]}</Badge>
           </div>
-          <h3 className={cn('mt-2 text-sm font-bold text-text-primary', isComplete && 'line-through')}>
+          <h3
+            className={cn(
+              'mt-2 min-w-0 break-words text-sm font-bold text-text-primary',
+              isComplete && 'line-through',
+            )}
+          >
             {task.title}
           </h3>
           {task.description || task.notes ? (
-            <p className="mt-1 text-sm leading-6 text-text-secondary">{task.description ?? task.notes}</p>
+            <p className="mt-1 min-w-0 break-words text-sm leading-6 text-text-secondary">
+              {task.description ?? task.notes}
+            </p>
           ) : null}
           <div className="mt-3 flex flex-wrap gap-2 text-xs text-text-secondary">
             <Badge className="gap-1">

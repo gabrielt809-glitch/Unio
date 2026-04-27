@@ -9,7 +9,7 @@ type TaskFilterTabsProps = {
 };
 
 export const TaskFilterTabs = ({ activeFilter, counts, onFilterChange }: TaskFilterTabsProps) => (
-  <div className="-mx-1 overflow-x-auto px-1 pb-1" role="tablist" aria-label="Filtros de tarefas">
+  <div className="-mx-1 max-w-full overflow-x-auto px-1 pb-1" role="tablist" aria-label="Filtros de tarefas">
     <div className="flex min-w-max gap-2">
       {taskFilterOptions.map((option) => (
         <Chip

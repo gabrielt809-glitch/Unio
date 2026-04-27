@@ -17,6 +17,7 @@ describe('TaskCard', () => {
 
     expect(screen.getByText('Enviar relatorio')).toBeInTheDocument();
     expect(screen.getByText('Trabalho')).toBeInTheDocument();
+    expect(screen.getByText('Enviar relatorio')).toHaveClass('break-words');
 
     await user.click(screen.getByRole('button', { name: 'Concluir tarefa' }));
     await user.click(screen.getByRole('button', { name: 'Editar tarefa' }));

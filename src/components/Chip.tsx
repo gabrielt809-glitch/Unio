@@ -19,6 +19,7 @@ export const Chip = ({
     aria-pressed={selected}
     className={cn(
       'inline-flex min-h-10 items-center justify-center gap-2 rounded-app border px-3 text-sm font-semibold transition duration-200 ease-app',
+      'max-w-full min-w-0',
       selected
         ? 'border-primary/30 bg-primary/15 text-text-primary'
         : 'border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:text-text-primary',
@@ -28,6 +29,6 @@ export const Chip = ({
     {...props}
   >
     {icon}
-    <span>{children}</span>
+    <span className="min-w-0 truncate">{children}</span>
   </button>
 );

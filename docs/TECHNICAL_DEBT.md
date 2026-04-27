@@ -44,7 +44,11 @@ Ainda existe repeticao em submit, loading/error e drafts de forms em `habits`, `
 
 Resolvido parcialmente na Etapa 4. Tokens CSS, componentes base, Auth visual e validacao responsiva foram fortalecidos. Ainda faltam componentes interativos como `Tabs`, `Switch`, `Toast`, `BottomSheet` e `Drawer`, que devem nascer apenas quando houver uso real.
 
-## 12. Itens para proximas etapas
+## 12. Visual QA automatizado
+
+Resolvido como baseline na Etapa 6.2. Playwright foi adicionado para executar o Visual QA Gate em viewports obrigatorios e impedir aprovacao baseada apenas em lint/typecheck/test/build. Ainda falta evoluir para fluxos autenticados reais quando houver uma estrategia segura de seed/mock de sessao.
+
+## 13. Itens para proximas etapas
 
 1. Ampliar testes de utils e componentes base.
 2. Validar login real por magic link com usuario de teste.
@@ -56,3 +60,4 @@ Resolvido parcialmente na Etapa 4. Tokens CSS, componentes base, Auth visual e v
 8. Validar CRUD real de Tasks em producao com dois usuarios.
 9. Aplicar manualmente a migration de hardening `20260427100000_tasks_hardening.sql`, se ainda nao tiver sido aplicada.
 10. Revisar shell autenticado com usuario real e dados suficientes para listas longas.
+11. Manter `npm run test:visual` obrigatorio em toda etapa com impacto visual.

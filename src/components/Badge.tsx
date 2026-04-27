@@ -21,6 +21,7 @@ export const Badge = ({ className, tone = 'neutral', ...props }: BadgeProps) => 
   <span
     className={cn(
       'inline-flex min-h-7 items-center rounded-app border px-2.5 text-xs font-semibold',
+      'max-w-full min-w-0 break-words',
       toneClass[tone],
       className,
     )}

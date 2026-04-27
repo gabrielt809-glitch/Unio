@@ -41,6 +41,7 @@ export const Button = ({
   <button
     className={cn(
       'inline-flex items-center justify-center gap-2 rounded-app py-2 font-semibold transition duration-200 ease-app active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-55 disabled:active:scale-100',
+      'min-w-0 max-w-full',
       variantClass[variant],
       sizeClass[size],
       className,
@@ -50,6 +51,6 @@ export const Button = ({
     {...props}
   >
     {isLoading ? <LoaderCircle aria-hidden="true" className="h-4 w-4 animate-spin" /> : icon}
-    <span>{isLoading ? 'Carregando' : children}</span>
+    <span className="min-w-0 truncate">{isLoading ? 'Carregando' : children}</span>
   </button>
 );

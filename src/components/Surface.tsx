@@ -15,5 +15,5 @@ const variantClass = {
 };
 
 export const Surface = ({ className, variant = 'default', ...props }: SurfaceProps) => (
-  <div className={cn('rounded-panel border p-4', variantClass[variant], className)} {...props} />
+  <div className={cn('min-w-0 rounded-panel border p-4', variantClass[variant], className)} {...props} />
 );

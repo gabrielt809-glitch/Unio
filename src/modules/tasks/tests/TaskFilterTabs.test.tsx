@@ -19,6 +19,8 @@ describe('TaskFilterTabs', () => {
 
     render(<TaskFilterTabs activeFilter="today" counts={counts} onFilterChange={onFilterChange} />);
 
+    expect(screen.getByRole('tablist')).toHaveClass('max-w-full');
+    expect(screen.getByRole('tablist')).toHaveClass('overflow-x-auto');
     expect(screen.getByRole('tab', { name: 'Hoje, 1 tarefas' })).toHaveAttribute('aria-selected', 'true');
     await user.click(screen.getByRole('tab', { name: 'Sem data, 3 tarefas' }));
 

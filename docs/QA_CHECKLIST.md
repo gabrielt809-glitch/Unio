@@ -95,12 +95,15 @@
 ## 13. Responsividade iPhone
 
 - Testar largura 320px, 375px, 390px e 430px.
+- Testar tambem `768x900` para desktop estreito/tablet.
 - Confirmar safe-area no topo e rodape.
 - Confirmar ausencia de scroll horizontal.
 - Confirmar que login, cadastro, magic link, recuperacao e reset nao geram overflow horizontal.
 - Confirmar que filtros horizontais de Tarefas nao geram scroll horizontal na pagina.
 - Confirmar que Auth, formularios e bottom nav nao cortam texto nem botoes.
 - Confirmar que cards de metricas continuam legiveis em duas colunas.
+- Confirmar que inputs de data, selects, textareas e botoes ficam dentro do container em Tarefas, Financas e Saude.
+- Confirmar que dialogs respeitam `max-width` no iPhone.
 
 ## 14. PWA
 
@@ -121,6 +124,7 @@
 - `npm run lint`
 - `npm run typecheck`
 - `npm run test`
+- `npm run test:visual`
 - `npm run build`
 
 ## 17. RLS
@@ -136,3 +140,22 @@
 - Verificar espaco pessoal `Pessoal` em `spaces`.
 - Verificar `user_preferences`.
 - Repetir login/reload e confirmar que nao duplica registros.
+
+## 19. Visual QA Gate permanente
+
+Executar em toda etapa futura:
+
+```bash
+npm run test:visual
+```
+
+Validar manualmente nos viewports `320x568`, `375x667`, `390x844`, `430x932` e `768x900` quando a etapa alterar UI, layout, formulario, nav, modal, estado vazio/loading/erro ou componente base.
+
+Telas obrigatorias:
+
+- Auth: login, cadastro, magic link, recuperacao e reset.
+- Area logada: Dashboard, Tarefas, Habitos, Financas, Saude, Ajustes e agrupamento Mais quando existir.
+- Tarefas: formulario de criacao/edicao, campo de data, filtros, cards, empty/loading/error e confirmacao de exclusao.
+- Modulos secundarios: Agua, Sono, Nutricao e Bem-estar enquanto estiverem agrupados em Saude.
+
+Reprovar a etapa se houver input extrapolando, scroll horizontal indevido, card saindo da tela, botao cortado, dialog quebrado, header/nav cobrindo conteudo ou qualquer tela com aparencia de prototipo.

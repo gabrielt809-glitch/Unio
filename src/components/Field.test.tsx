@@ -36,4 +36,32 @@ describe('Field components', () => {
     expect(screen.getByLabelText('Notas')).toBeInTheDocument();
     expect(screen.getByLabelText('Prioridade')).toHaveValue('medium');
   });
+
+  it('keeps form controls constrained to their parent width', () => {
+    render(
+      <div>
+        <FieldShell label="Data">
+          <Input type="date" />
+        </FieldShell>
+        <FieldShell label="Descricao">
+          <Textarea />
+        </FieldShell>
+        <FieldShell label="Categoria">
+          <Select defaultValue="personal">
+            <option value="personal">Pessoal</option>
+          </Select>
+        </FieldShell>
+      </div>,
+    );
+
+    for (const control of [
+      screen.getByLabelText('Data'),
+      screen.getByLabelText('Descricao'),
+      screen.getByLabelText('Categoria'),
+    ]) {
+      expect(control).toHaveClass('w-full');
+      expect(control).toHaveClass('min-w-0');
+      expect(control).toHaveClass('max-w-full');
+    }
+  });
 });

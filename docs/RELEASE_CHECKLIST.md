@@ -7,6 +7,7 @@
 - Confirmar que `.env.example` contem apenas nomes de variaveis e placeholders vazios.
 - Procurar termos sensiveis antes do primeiro commit: `service_role`, `JWT_SECRET`, `DATABASE_PASSWORD`, `postgres://`, `PRIVATE_KEY`.
 - Rodar format:check, lint, typecheck, test e build.
+- Rodar `npm run test:visual` e anexar resultado ao relatorio da etapa.
 - Revisar arquivos grandes.
 - Atualizar documentacao relevante.
 - Nao configurar remote nem executar `git push` sem revisao final.
@@ -50,6 +51,7 @@ Nunca configurar service role key, senha do banco, JWT secret ou private key no 
 ## 6. Testes
 
 - Rodar `npm run test`.
+- Rodar `npm run test:visual`.
 - Ampliar cobertura quando novas regras de negocio forem criadas.
 - Futuro: testes E2E.
 
@@ -83,3 +85,11 @@ Nunca configurar service role key, senha do banco, JWT secret ou private key no 
 
 - Atualizar `package.json` quando houver release formal.
 - Registrar mudancas em `CHANGELOG.md` quando criado.
+
+## 10. Visual QA Gate antes de release
+
+- Validar Auth e area logada em `320x568`, `375x667`, `390x844`, `430x932` e `768x900`.
+- Confirmar ausencia de scroll horizontal indevido.
+- Confirmar inputs, cards, botoes, filtros e dialogs dentro do container.
+- Confirmar safe-area, TopBar e BottomNav.
+- Reprovar release se qualquer elemento extrapolar a tela ou prejudicar UX mobile.

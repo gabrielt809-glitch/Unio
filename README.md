@@ -62,6 +62,7 @@ npm run format:check
 ```bash
 npm run test
 npm run test:watch
+npm run test:visual
 ```
 
 ## Estrutura do projeto
@@ -148,6 +149,8 @@ Ainda faltam migrar Habits/Finance/Health para TanStack Query, expandir React Ho
 Tokens visuais vivem em `src/styles/` e componentes base reutilizaveis vivem em `src/components/`. A Etapa 4 padronizou `Button`, `IconButton`, `Input`, `Textarea`, `Select`, `Surface`, `Card`, `Badge`, `Chip`, `ProgressBar`, `Divider`, `Skeleton`, estados globais e wrappers de layout.
 
 Validacao visual controlada confirmou Auth sem scroll horizontal em `320x568`, `390x844` e `768x900`, sem console error/warning no fluxo observado.
+
+O Visual QA Gate agora e obrigatorio em todas as proximas etapas. Ele roda com Playwright em `320x568`, `375x667`, `390x844`, `430x932` e `768x900`, validando Auth real e um harness visual local para telas internas sem depender de usuario real.
 
 ## Documentacao
 

@@ -10,6 +10,7 @@ export const Screen = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) 
   <div
     className={cn(
       'min-h-screen bg-background text-text-primary selection:bg-accent selection:text-background',
+      'overflow-x-hidden',
       className,
     )}
     {...props}
@@ -20,6 +21,7 @@ export const PageContainer = ({ className, ...props }: HTMLAttributes<HTMLElemen
   <main
     className={cn(
       'safe-area-x mx-auto w-full max-w-2xl pb-[calc(6.5rem+var(--safe-bottom))] pt-4',
+      'min-w-0 overflow-x-hidden',
       className,
     )}
     {...props}
@@ -36,7 +38,7 @@ type PageHeaderProps = {
 
 export const PageHeader = ({ action, className, description, eyebrow, title }: PageHeaderProps) => (
   <header className={cn('flex items-start justify-between gap-4', className)}>
-    <div className="min-w-0">
+    <div className="min-w-0 max-w-full">
       {eyebrow ? <p className="text-xs font-semibold uppercase text-accent">{eyebrow}</p> : null}
       <h1 className="mt-1 text-2xl font-extrabold tracking-normal text-text-primary">{title}</h1>
       {description ? <p className="mt-2 text-sm leading-6 text-text-secondary">{description}</p> : null}
